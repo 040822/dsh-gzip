@@ -17,6 +17,10 @@
     "compression"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/040822/dsh-gzip.git"
+  },
   "engines": {
     "node": ">=22.19"
   }

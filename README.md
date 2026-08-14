@@ -33,7 +33,7 @@ dsh plugin --profile web add dsh-gzip
 
 - **指定版本**：`dsh plugin --profile web add dsh-gzip@<version>`
 - **还没装 DSH**：`npx -p @deepseek-ai/dsh dsh plugin --profile web add dsh-gzip`
-- **从 GitHub 安装**：`dsh plugin --profile web add github:<owner>/dsh-gzip`
+- **从 GitHub 安装**：`dsh plugin --profile web add github:040822/dsh-gzip`（仓库：[github.com/040822/dsh-gzip](https://github.com/040822/dsh-gzip)）
 - **从源码 / 符号链接安装**（不经过 npm，开发或内网部署用）：把插件目录链接到 profile 的插件解析目录，并在 profile patch 中注册：
 
 ```sh
