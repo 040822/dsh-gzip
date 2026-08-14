@@ -1,0 +1,23 @@
+{
+  "name": "dsh-gzip",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness plugin: gzip /api responses — fixes history loading failures over slow links",
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "gzip",
+    "compression"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19"
+  }
+}
