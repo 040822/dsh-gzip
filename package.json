@@ -1,6 +1,6 @@
 {
   "name": "dsh-gzip",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DeepSeek Harness plugin: gzip /api responses — fixes history loading failures over slow links",
   "type": "module",
   "main": "index.js",
