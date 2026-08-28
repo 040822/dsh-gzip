@@ -77,6 +77,41 @@ curl -s -D - -o /dev/null -X POST http://127.0.0.1:3080/api/session.list \
 
 本插件由 **DeepSeek V4 Flash + DeepSeek Harness vibe coding** 完成：在 dsh GUI 会话中完成问题诊断（含实测数据与完整证据链）、方案设计、实现与端到端验证。全部代码就是一个 `index.js`，欢迎阅读、修改与提 PR。
 
+## DSH STORE 上架契约自查（install / start / uninstall 证据）
+
+本插件以**官方 bundle 形态**分发：`package.json` 声明 `dsh.bundle.patch` 指向本仓库的 `cordis.patch.yml`，其中仅以唯一 ID `dsh-gzip` **新增插件自有 entry（additive）**，不替换/冒用任何 `@deepseek-ai/*` 组件或受保护 entry。兼容性在 `dsh.compatibility.dshReleases` 中对 DSH 官方**完整版本逐项声明**。
+
+> 关于「additive」的诚实说明：插件在 `/api` 路由**注册瞬间包裹（wrap）其 handler** 做 gzip，从不移除官方 `dsh-client-connection` 的 entry，也不改写任何官方内部实现——官方 entry 仍正常存在并运行，仅在响应写出时叠加压缩。`/api` 路由目前没有官方暴露在 manifest 之外的压缩钩子，这是在不破坏官方行为前提下的 wrapper 方案。
+
+### 一次性 Profile：安装 → 启动 → 卸载 复现步骤
+
+```sh
+# 1) 安装到一次性 profile（不污染常驻 web profile）
+dsh plugin --profile gziptest add .
+# 2) 启动该 profile 的 web 服务
+dsh web --profile gziptest
+#    启动日志应出现：dsh-gzip: /api gzip compression enabled
+# 3) 验证压缩生效（请求带 Accept-Encoding: gzip 时，响应带 content-encoding）
+curl -s -D - -o /dev/null -X POST http://127.0.0.1:3080/api/session.list \
+  -H "Content-Type: application/json" -H "Accept-Encoding: gzip" \
+  -d '{"type":"client-request","rpcId":"test","method":"session.list","payload":{}}' \
+  | grep -i content-encoding
+#    应看到：content-encoding: gzip
+# 4) 卸载并清理一次性 profile
+dsh plugin --profile gziptest remove dsh-gzip
+```
+
+### 兼容性声明（见 `package.json` 的 `dsh.compatibility.dshReleases`）
+
+| DSH 版本      | 声明        |
+|---------------|-------------|
+| 0.1.0-rc.6    | compatible  |
+| 0.1.0-rc.8    | compatible  |
+| 0.1.1-rc.1    | compatible  |
+| 0.1.1-rc.2    | unknown     |
+
+实测覆盖：0.1.0-rc.6 / 0.1.0-rc.8 / 0.1.1-rc.1 均实跑验证无问题，故标 `compatible`；0.1.1-rc.2 尚未实测，按 STORE 允许的 `unknown` 声明（不视为不兼容）。后续在 rc.2 上跑一遍即可改为 `compatible`。
+
 ## License
 
 MIT

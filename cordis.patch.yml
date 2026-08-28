@@ -1,0 +1,6 @@
+# DSH Bundle 组合层声明（由 package.json 的 dsh.bundle.patch 指向）。
+# 仅新增插件自有、唯一 entry ID，不替换/冒用任何 @deepseek-ai/* 或受保护 entry。
+# 插件在 /api 路由注册瞬间包裹（wrap）其 handler 做 gzip，从不移除官方 entry。
+- insert:
+    - id: dsh-gzip
+      name: 'dsh-gzip'
